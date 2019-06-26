@@ -33,6 +33,7 @@ public class deleteContact extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
         int id = -1;
         try {
             id = Integer.parseInt(request.getParameter("idc"));
@@ -41,6 +42,7 @@ public class deleteContact extends HttpServlet {
         }
         Contact c = DB.getContactById(id);
         Person p = DB.getByContact(c);
+        int idp = p.getId();
         if (c != null) {
             DB.deleteContact(id);
         }
@@ -49,7 +51,7 @@ public class deleteContact extends HttpServlet {
         } else {
 //atidirbus servletui ši eilute grazina i contact.jsp ir perduoda personId informacija    
 //            response.sendRedirect("contact.jsp?personId=" + p.getId());
-response.sendRedirect("index.jsp");
+response.sendRedirect("contact.jsp?id=" + idp);
         }
 
     }

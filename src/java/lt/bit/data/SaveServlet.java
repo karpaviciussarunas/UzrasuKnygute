@@ -39,24 +39,24 @@ public class SaveServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     //Datos metodas verčiantis data į Stringa
-    private Date parse(String birthDate){
-SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-Date dt = null;
-try{
-    dt = sdf.parse(birthDate);
-}catch(Exception ex){
-    Logger.getLogger(SaveServlet.class.getName()).log(Level.SEVERE,null, ex);
-}
-    return dt;   
-}
+    private Date parse(String birthDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt = null;
+        try {
+            dt = sdf.parse(birthDate);
+        } catch (Exception ex) {
+            Logger.getLogger(SaveServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return dt;
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-
 // jeigu id lygus null kuriam nauja
-        String idp = request.getParameter("id");
-        if (idp == null) {
+        String idps = request.getParameter("id");
+        if (idps == null) {
 //          surenku i svetaine suvestas reiksmes
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
@@ -73,34 +73,34 @@ try{
 // Sukurta Person ikeliu i DB lista
                 DB.getAll().add(p);
             }
-            
+
 // EDIT Person kai id nera null
         } else {
             int id = -1;
             try {
 //                gaunu id numeri
-                id = Integer.parseInt(idp);
+                id = Integer.parseInt(idps);
             } catch (Exception ex) {
             }
-            if (id < 0 || id >= DB.getAll().size()) {
+            if (id <= 0 || id > DB.getById(id).getNextId()) {
                 id = -1;
             }
-            if (id >= 0 && id < DB.getAll().size()){
+            if (id > 0 && id <= DB.getById(id).getNextId()) {
 // patikrinam ar id gaunu suvestus duomenis 
                 String firstName = request.getParameter("firstName");
                 String lastName = request.getParameter("lastName");
                 String birthDate = request.getParameter("birthDate");
                 String salary = request.getParameter("salary");
                 if ((firstName != null && !"".equals(firstName))
-                    && (lastName != null && !"".equals(lastName))
-                    && (birthDate != null && !"".equals(birthDate))
-                    && (salary != null && !"".equals(salary))) {
+                        && (lastName != null && !"".equals(lastName))
+                        && (birthDate != null && !"".equals(birthDate))
+                        && (salary != null && !"".equals(salary))) {
 // priskiriame naujai suvestas reiksaes pagal redaguojamo person ID 
- DB.getAll().get(id).setFirstName(firstName);
- DB.getAll().get(id).setLastName(lastName);
- DB.getAll().get(id).setBirthDate(parse(birthDate));
- DB.getAll().get(id).setSalary(new BigDecimal(salary));
-          
+                    DB.getById(id).setFirstName(firstName);
+                    DB.getById(id).setLastName(lastName);
+                    DB.getById(id).setBirthDate(parse(birthDate));
+                    DB.getById(id).setSalary(new BigDecimal(salary));
+
                 }
             }
         }
@@ -145,7 +145,5 @@ try{
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    
 
 }

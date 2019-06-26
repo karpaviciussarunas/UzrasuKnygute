@@ -42,9 +42,9 @@ public class RemoveServlet extends HttpServlet {
      }
                 
             
-     if(id>=0 && id<DB.getAll().size()){
+     if(id>=0 && id<DB.getById(id).getNextId()){
 //      kviesti metod paduodant parametra id  DB.dedelt(id);
-DB.delete(DB.getAll().get(id).getId());
+    DB.delete(id);
 
 
      } 

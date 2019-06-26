@@ -16,45 +16,48 @@
     </head>
     <body>
         <%
-            String idp = request.getParameter("id"); 
+            String idp = request.getParameter("id");
             int id = -1;
             try {
                 id = Integer.parseInt(idp);
-                } catch (Exception ex) {
+            } catch (Exception ex) {
             }
 //            saugomės nuo nesamo person id
-            if (id < 0 || id >= DB.getAll().size()) {
+            if (id <= 0 || id > DB.getById(id).getNextId()) {
                 id = -1;
             }
             if (idp != null && id == -1) {
                 response.sendRedirect("index.jsp");
                 return;
-            } 
-             %>
-             <%-- paimame person id ir pagal ji ispausdiname person varda adresu skiltyje --%>
-             <% if(DB.getAll().get(id) != null) { %>
-             <% String vardas = DB.getAll().get(id).getFirstName(); %>
-            <% String pavarde = DB.getAll().get(id).getLastName(); %>
-            <h2> <%= vardas + ", " + pavarde + " - " %> Contact</h2>        
-          <% } %>
+            }
+        %>
+        <%-- paimame person id ir pagal ji ispausdiname person varda adresu skiltyje --%>
+        <% if (DB.getById(id) != null) { %>
+        <% String vardas = DB.getById(id).getFirstName(); %>
+        <% String pavarde = DB.getById(id).getLastName();%>
+        <h2> <%= vardas + ", " + pavarde + " - "%> Contact</h2>        
+        <% } %>
         <ul>
-            <!--einam per Address sarasa ir rodome jo rezultata-->
-            <!-- pagal personId ispausdiname adresus -->
-            <% for (Contact c : DB.getPersonContacts(DB.getAll().get(id).getId())) {%>
-            <li><%= c %>
-
-                <a href="editContact.jsp?idc=<%= c.getId() %>">   Edit Contact, </a><%= c.getId() %>
-                <a href="deleteContact?idc=<%= c.getId() %>">     Remove Contact, </a>    
-                <a href="address.jsp?personId=<%= id %>">         Address,</a>
- <%--= a.getId() %> Gaunu adsress id 
- <%= DB.getByAddress(a).getFirstName() --%> <p><%= c.getId() %></p>
-            </li>
-               <%}%> 
-        </ul>
+            <!--einam per Contact sarasa ir rodome jo rezultata-->
+            <!-- pagal personId ispausdiname contacts -->
+            <% for (Contact c : DB.getPersonContacts(id)) {%>
+            <li><%= c%>
+                
                
-               <a href="editContact.jsp?personId=<%= id %>">Add new contact</a>
-     <%--= DB.getAll().get(id).getId() --%>
-        <a href="index.jsp">Cancel</a>
-         
+                <a href="editContact.jsp?idc=<%= c.getId()%> ">   Edit Contact, </a>
+                <a href="deleteContact?idc=<%= c.getId()%> ">     Remove Contact, </a>    
+                <a href="address.jsp?id=<%= id%>">                Address,</a>
+            </li>
+            <%}%> 
+        </ul>
+
+        <form method= "POST" action="editContact.jsp?id=<%= id%>" >
+            <input type="submit"  value="Add new contact">
+        </form>
+        <form method= "POST" action="index.jsp?id<%=id%>" >
+            <input type="submit"  value="cancel">
+        </form>
+
+
     </body>
 </html>

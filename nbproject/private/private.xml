@@ -2,21 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/src/java/lt/bit/db/DB.java</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/web/editPerson.jsp</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/src/java/lt/bit/data/deleteAddressServlet.java</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/web/editContact.jsp</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/web/address.jsp</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/src/java/lt/bit/data/SaveServlet.java</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/web/index.jsp</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/src/java/lt/bit/data/AddressSaveServlet.java</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/src/java/lt/bit/data/saveContactServlet.java</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/src/java/lt/bit/data/deleteContact.java</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/src/java/lt/bit/data/Contact.java</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/web/editAddress.jsp</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/web/contact.jsp</file>
-            <file>file:/C:/Users/Dell/Documents/NetBeansProjects/UzrasuKnygute/src/java/lt/bit/data/RemoveServlet.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

@@ -34,19 +34,31 @@ public class deleteAddressServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
  
-          int id = -1;
-     try{
-     id = Integer.parseInt(request.getParameter("ida"));
-     }catch (Exception ex){     
-     }
-      
-     if(id >= 0){
-//      kviesti metod paduodant parametra id  DB.dedelt(id);
-DB.deleteAddress(id);
+        int id = -1;
+        try {
+            id = Integer.parseInt(request.getParameter("ida"));
+        } catch (Exception ex) {
 
+        }
+        Address a = DB.getAddressById(id);
+        Person p = DB.getByAddress(a);
+        int idp = p.getId();
+        if (a != null) {
+            DB.deleteAddress(id);
+        }else{
+            response.sendRedirect("index.jsp");
+            return;
+        }
+        
+        
+        if (p == null) {
+            response.sendRedirect("index.jsp");
+            return;
+        } else {
+//atidirbus servletui ši eilute grazina i address.jsp ir perduoda personId informacija    
+response.sendRedirect("address.jsp?id=" + idp);
+        }
 
-     } 
-    response.sendRedirect("index.jsp"); //atidirbus servletui ši eilute perleidzia darba index.jsp
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -17,6 +17,14 @@ public class Address {
    private String address;
    private String city;
    private String postcode;
+
+    public static Integer getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(Integer nextId) {
+        Address.nextId = nextId;
+    }
    
    Address(){
        synchronized(nextId){

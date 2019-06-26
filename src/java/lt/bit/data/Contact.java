@@ -16,6 +16,14 @@ public class Contact {
     private Integer id;
     private String contact;
     private String type;
+
+    public static Integer getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(Integer nextId) {
+        Contact.nextId = nextId;
+    }
     Contact(){
         synchronized(nextId){
             this.id = nextId++;

@@ -33,17 +33,16 @@ public class saveContactServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        //NIEKAS NESUTVARKYTA
         response.setContentType("text/html;charset=UTF-8");
+        
         String idcs = request.getParameter("idc");
-
+        int idp = -1;
 // jeigu address id lygus null kuriam nauja   
         if (idcs == null) {
-            String idps = request.getParameter("personId"); //pasima reiksme is editAddress.jsp
-            int idp = -1;
+            String idps = request.getParameter("id"); //pasima reiksme is editAddress.jsp
             Contact c = null;
             try {
-                idp = new Integer(idps);
+                idp = Integer.parseInt(idps);
             } catch (Exception ex) {
             }
 //          surenku i svetaine suvestas reiksmes
@@ -57,30 +56,35 @@ public class saveContactServlet extends HttpServlet {
 
             }
             DB.addContact(idp, c);
+//            EDIT Contact kai ida ners null
         } else {
-            int ida = -1;
+            int idc = -1;
             try {
 //                gaunu ida numeri
-                ida = Integer.parseInt(idcs);
+                idc = Integer.parseInt(idcs);
             } catch (Exception ex) {
             }
-            if (ida < 0 || ida >= DB.getAllContacts().size()) {
-                ida = -1;
-            }
+            Contact c = DB.getContactById(idc);
+            if(c != null){
+//            if (idc <= 0 || idc > DB.getContactById(idc).getNextId()) {
+//                idc = -1;
+//            }
             // patikrinam ar id gaunu suvestus duomenis 
-            if (ida >= 0 && ida < DB.getAllContacts().size()) {
+//            if (idc > 0 && idc <= DB.getContactById(idc).getNextId()) {
+
                 String contact = request.getParameter("contact");
                 String type = request.getParameter("type");
 
                 if ((contact != null && !"".equals(contact))
                         && (type != null && !"".equals(type))) {
 // priskiriame naujai suvestas reiksaes pagal redaguojamo person ID 
-                    DB.getContactById(ida).setContact(contact);
-                    DB.getContactById(ida).setType(type);
+                    DB.getContactById(idc).setContact(contact);
+                    DB.getContactById(idc).setType(type);
                 }
             }
+//        }
         }
-        response.sendRedirect("index.jsp"); //atidirbus servletui ši eilute perleidzia darba index.jsp  
+        response.sendRedirect("contact.jsp?id=" + idp); //atidirbus servletui ši eilute perleidzia darba index.jsp   
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

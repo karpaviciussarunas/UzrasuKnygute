@@ -21,14 +21,14 @@
         <h1>Edit Person</h1>
 
         <%
-            String ids = request.getParameter("id");            
+            String ids = request.getParameter("id");
             int id = -1;
             try {
                 id = Integer.parseInt(ids);
             } catch (Exception ex) {
             }
 //            saugomės nuo nesamo person id
-            if (id < 0 || id >= DB.getAll().size()) {
+            if (id <= 0 || id > DB.getById(id).getNextId()) {
                 id = -1;
             }
             if (ids != null && id == -1) {
@@ -37,20 +37,22 @@
             }
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         %>
-  <% Person p = null; %>
+        <% Person p = null; %>
         <form method= "POST" action="saveServlet">
             <% if (ids != null) {%>
-            <% p = DB.getAll().get(id); %> 
+            <% p = DB.getById(id);%> 
             <input name="id" type="hidden" value="<%= id%>">
             <% }%>
             Vardas<input name="firstName" value="<%= (ids == null) ? "" : p.getFirstName()%>">
             Pavardė<input name="lastName" value="<%= (ids == null) ? "" : p.getLastName()%>">
-            Gimimo data<input type="date" name="birthDate" value="<%=(ids == null) ? "" : sdf.format(DB.getAll().get(id).getBirthDate())%>">
+            Gimimo data<input type="date" name="birthDate" value="<%=(ids == null) ? "" : sdf.format(p.getBirthDate())%>">
             Salary<input name="salary"  value="<%= (ids == null) ? "" : p.getSalary()%>">
             <input type="submit" value="save">
 
         </form>
+        <form method= "POST" action="index.jsp" >
+            <input type="submit"  value="Cancel">
+        </form>
 
-        <a href="index.jsp">Cancel</a>
     </body>
 </html>

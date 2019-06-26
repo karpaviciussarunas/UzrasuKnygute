@@ -14,60 +14,61 @@
         <title>JSP Page</title>
     </head>
     <body>
-                <%
+        <%
 // jei spaustas Add new address, tai pasiimame personId stringa
-            String idps = request.getParameter("personId"); 
+            String idps = request.getParameter("id");
             int idp = -1;
             try {
-//                jeigu personId yra normalus saicius, paverciam ji Integer
+//                jeigu personId yra normalus skaicius, paverciam ji Integer
                 idp = Integer.parseInt(idps);
-                } catch (Exception ex) {
+            } catch (Exception ex) {
             }
 //            saugomės nuo nesamo personId. reik sugalvoti geresni buda
-            if (idp < 0 || idp >= DB.getAll().size()) {
+            if (idp <= 0 || idp > DB.getById(idp).getNextId()) {
                 idp = -1;
             }
-//            jei ivesta nesamoninga id reiksme, graziname i index.jsp ir nutraukiam procesus
+            //            jei ivesta nesamoninga id reiksme, graziname i index.jsp ir nutraukiam procesus
             if (idps != null && idp == -1) {
                 response.sendRedirect("index.jsp");
                 return;
-            }  
-             %>
-             
-             <%-- pagal gauta personId isvedu i ekrana tvarkomo person varda --%>
-             
-            <% if(DB.getAll().get(idp) != null) { %>
-             <% String vardas = DB.getAll().get(idp).getFirstName(); %>
-            <% String pavarde = DB.getAll().get(idp).getLastName(); %> 
-            <h1> <%= vardas + ", " + pavarde + " - " %> Edit Address</h1>        
-          <% } %>
-          
-          <%-- paimame addressId reiksme redagavimui is address.jsp --%>
-         <% String idas = request.getParameter("ida");
+            }
+        %>
+
+        <%-- pagal gauta personId isvedu i ekrana tvarkomo person varda --%>
+
+        <% if (DB.getById(idp) != null) { %>
+        <% String vardas = DB.getById(idp).getFirstName(); %>
+        <% String pavarde = DB.getById(idp).getLastName();%> 
+        <h2> <%= vardas + ", " + pavarde + " - "%> Edit Address</h2>        
+        <% } %>
+
+        <%-- paimame addressId reiksme redagavimui is address.jsp --%>
+        <% String idas = request.getParameter("ida");
 //         jei ida tures normalia reikme ji pasikeis 
             int ida = -1;
             try {
-//                paverciam addressId i Integer
+//                paverciu addressId i Integer
                 ida = Integer.parseInt(idas);
-                } catch (Exception ex) {
+            } catch (Exception ex) {
             }
-          %>
-          
-      <% Address a = null; %>
-        <form method= "POST" action="AddressSaveServlet?personId=<%= DB.getAll().get(idp).getId() %>" >
-            <%-- jei jau yra sukurtas addressList su id --%>
-            <% if (idas != null) {%>
-            <%  a = DB.getAddressById(ida); %>
-            <input name="ida" type="hidden" value="<%= ida %>">
-            <% } %>
+        %>
 
-            Address<input name="address" value="<%= (idas == null) ? "" : a.getAddress() %>">
-            City<input name="city" value="<%= (idas == null) ? "" : a.getCity() %>">
-            Postcode<input name="postcode"  value="<%= (idas == null) ? "" : a.getPostcode() %>">
+
+        <form method= "POST" action="AddressSaveServlet?id=<%= idp%>">
+            <%-- jeigu adresas jau yra sukurtas --%>
+            <% if (idas != null) {%>
+            <input name="ida" type="hidden" value="<%= ida%>">
+            <% }%>
+            <% Address a = DB.getAddressById(ida);%>
+            Address<input name="address" value="<%= (idas == null) ? "" : a.getAddress()%>">
+            City<input name="city" value="<%= (idas == null) ? "" : a.getCity()%>">
+            Postcode<input name="postcode"  value="<%= (idas == null) ? "" : a.getPostcode()%>">
             <input type="submit"  value="save">
         </form>
-        
-        <a href="index.jsp">Cancel</a>
-        
+            
+        <form method= "POST" action="address.jsp?id<%=idp%>" >
+            <input type="submit"  value="cancel">
+        </form>
+       
     </body>
 </html>

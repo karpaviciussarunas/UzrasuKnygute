@@ -21,7 +21,7 @@ import static lt.bit.db.DB.getAllAddresses;
  */
 @WebServlet(name = "AddressSaveServlet", urlPatterns = {"/AddressSaveServlet"})
 public class AddressSaveServlet extends HttpServlet {
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -30,12 +30,13 @@ public class AddressSaveServlet extends HttpServlet {
 // reikia paimti person id "listo numeri"
 // tada jam priskirti nauja adresa
         String idas = request.getParameter("ida");
-
-// jeigu address id lygus null kuriam nauja   
+// jeigu addressId lygus null kuriam nauja
+        int idp = -1;
         if (idas == null) {
-            String idps = request.getParameter("personId");
-            int idp = -1;
+//            paimame personId is editAddress
+            String idps = request.getParameter("id");
             Address a = null;
+
             try {
                 idp = new Integer(idps);
             } catch (Exception ex) {
@@ -60,20 +61,20 @@ public class AddressSaveServlet extends HttpServlet {
                 ida = Integer.parseInt(idas);
             } catch (Exception ex) {
             }
-
+            if (ida <= 0 || ida > DB.getAddressById(ida).getNextId()) {
+                ida = -1;
+            }
             // patikrinam ar id gaunu suvestus duomenis 
             Address a = DB.getAddressById(ida);
             if (a != null) {
-                
+
                 String address = request.getParameter("address");
                 String city = request.getParameter("city");
                 String postcode = request.getParameter("postcode");
-                a.setAddress(address);
-                a.setCity(city);
-                a.setPostcode(postcode);
-//                if ((address != null && !"".equals(address))
-//                        && (city != null && !"".equals(city))
-//                        && (postcode != null && !"".equals(postcode))) {
+
+                if ((address != null && !"".equals(address))
+                        && (city != null && !"".equals(city))
+                        && (postcode != null && !"".equals(postcode))) {
 //// priskiriame naujai suvestas reiksaes pagal redaguojamo person ID 
 //DB.updateAddress(a).setAddress(address);
 //DB.updateAddress(a).setCity(city);
@@ -81,7 +82,10 @@ public class AddressSaveServlet extends HttpServlet {
 //                    DB.getAddressById(ida).setAddress(address);
 //                    DB.getAddressById(ida).setCity(city);
 //                    DB.getAddressById(ida).setPostcode(postcode);
-//                }
+                a.setAddress(address);
+                a.setCity(city);
+                a.setPostcode(postcode);
+                }
             }
         }
         response.sendRedirect("index.jsp"); //atidirbus servletui ši eilute perleidzia darba index.jsp  

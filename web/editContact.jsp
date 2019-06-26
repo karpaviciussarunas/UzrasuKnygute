@@ -16,19 +16,19 @@
     </head>
     <body>
         <%
-        // jei spaustas Add new address, tai pasiimame personId stringa
-            String idps = request.getParameter("personId");
+            // jei spaustas Add new address, tai pasiimame personId stringa
+            String idps = request.getParameter("id");
             int idp = -1;
             try {
-        //                jeigu personId yra normalus saicius, paverciam ji Integer
+                //                jeigu personId yra normalus saicius, paverciam ji Integer
                 idp = Integer.parseInt(idps);
             } catch (Exception ex) {
             }
-        //            saugomės nuo nesamo personId
-            if (idp < 0 || idp >= DB.getAll().size()) {
+            //            saugomės nuo nesamo personId
+            if (idp <= 0 || idp > DB.getById(idp).getNextId()) {
                 idp = -1;
             }
-        //            jei ivesta nesamoninga id reiksme, graziname i index.jsp ir nutraukiam procesus
+            //            jei ivesta nesamoninga id reiksme, graziname i index.jsp ir nutraukiam procesus
             if (idps != null && idp == -1) {
                 response.sendRedirect("index.jsp");
                 return;
@@ -37,13 +37,13 @@
 
         <%-- pagal gauta personId isvedu i ekrana tvarkomo person varda --%>
 
-        <% if (DB.getAll().get(idp) != null) { %>
-        <% String vardas = DB.getAll().get(idp).getFirstName(); %>
-        <% String pavarde = DB.getAll().get(idp).getLastName();%> 
+        <% if (DB.getById(idp) != null) { %>
+        <% String vardas = DB.getById(idp).getFirstName(); %>
+        <% String pavarde = DB.getById(idp).getLastName();%> 
         <h2> <%= vardas + ", " + pavarde + " - "%> Edit Contact</h2>        
         <% } %>
 
-        <%-- paimame addressId reiksme redagavimui is address.jsp --%>
+        <%-- paimame contactId reiksme redagavimui is contact.jsp --%>
         <% String idcs = request.getParameter("idc");
 //         jei idc tures normalia reikme ji pasikeis 
             int idc = -1;
@@ -54,18 +54,29 @@
             }
         %>
 
-<%= idc %>
-        <form method= "POST" action="saveContactServlet?personId=<%= DB.getAll().get(idp).getId()%>" >
-            <%-- jei jau yra sukurtas ContactList su id --%>
+        <form method= "POST" action="saveContactServlet?id=<%= idp%>" >
+            <%-- jeigu contaktas jau yra sukurtas --%>
             <% if (idcs != null) {%>
-            <input name="idc" type="hidden" value="<%= idc %>">
+            <input name="idc" type="hidden" value="<%= idc%>">
             <% }%>
-
-            Contact<input name="contact" value="<%= (idcs == null) ? "" : DB.getAllContacts().get(idc).getContact()%>">
-            Type<input name="type" value="<%= (idcs == null) ? "" : DB.getAllContacts().get(idc).getType()%>">
+            <% Contact c = DB.getContactById(idc);%>
+            Contact<input name="contact" value="<%= (c == null) ? "" : c.getContact()%>">
+            Type<input name="type" value="<%= (c == null) ? "" : c.getType()%>">
             <input type="submit"  value="save">
         </form>
+        <form method= "POST" action="contact.jsp?id<%=idp%>" >
+            <input type="submit"  value="cancel">
+        </form>
 
-        <a href="index.jsp">Cancel</a> <%= idp%>
+
+
+ 
+
+
+
+
+
+
+
     </body>
 </html>

@@ -28,17 +28,19 @@
         <h1>Užrašų knygutė</h1>
         <h2>Person List</h2>
 
-        <ul><% for (int i = 0; i < DB.getAll().size(); i++) {%>
-            <li> <%= DB.getAll().get(i)%>
-                <a href="editPerson.jsp?id=<%= i%>"> Edit, </a>
-                <a href="removeServlet?id=<%= i%>">  Remove,</a>    
-                <a href="address.jsp?id=<%= i %>">   Address,</a>
-                <a href="contact.jsp?id=<%= i %>">   Contact,</a> 
+        <ul><% for (Person p : DB.getAll()) {%>
+            <li> <%= "Name: " + p.getFirstName() + ".    " +" Last Name: " + p.getLastName()+".      " + " Birth Date: " + p.getBirthDate()+".       " + " Salary: " + p.getSalary()+".   " %>
+               
+                <a href="editPerson.jsp?id=<%=p.getId()%>">  <button type="button">Edite</button></a>
+                <a href="removeServlet?id=<%=p.getId()%>"> <button type="button">Remove</button></a>    
+                <a href="address.jsp?id=<%=p.getId()%>">   <button type="button">Address</button></a>
+                <a href="contact.jsp?id=<%=p.getId()%>">  <button type="button">Contact</button></a> 
             </li>  
             <%}%>    
         </ul>
+        <form method= "POST" action="editPerson.jsp" >
+            <input type="submit"  value="Add">
+        </form>
 
-
-        <a href="editPerson.jsp">Add</a>
     </body>
 </html>

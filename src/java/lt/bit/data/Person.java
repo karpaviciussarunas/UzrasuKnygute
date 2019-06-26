@@ -98,6 +98,14 @@ public class Person {
         return addresses;
     }
 
+    public static Integer getNextId() {
+        return nextId;
+    }
+
+    public static void setNextId(Integer nextId) {
+        Person.nextId = nextId;
+    }
+
     public void setAddress(List<Address> address) {
         this.addresses = address;
     }

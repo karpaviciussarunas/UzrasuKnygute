@@ -4,6 +4,7 @@
     Author     : Sars
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="lt.bit.data.Person"%>
 <%@page import="lt.bit.data.Address"%>
 <%@page import="org.apache.jasper.tagplugins.jstl.Util"%>
@@ -16,52 +17,46 @@
         <title>Address</title>
     </head>
     <body>
-        
+
         <%
-            String idp = request.getParameter("id"); 
+            String idp = request.getParameter("id");
             int id = -1;
             try {
                 id = Integer.parseInt(idp);
-                } catch (Exception ex) {
+            } catch (Exception ex) {
             }
-//            saugomės nuo nesamo person id
-            if (id < 0 || id >= DB.getAll().size()) {
+            //            saugomės nuo nesamo person id
+            if (id <= 0 || id > DB.getById(id).getNextId()) {
                 id = -1;
             }
             if (idp != null && id == -1) {
                 response.sendRedirect("index.jsp");
                 return;
-            } 
-             %>
-             <%-- paimame person id ir pagal ji ispausdiname person varda adresu skiltyje --%>
-             <% if(DB.getAll().get(id) != null) { %>
-             <% Person p =DB.getAll().get(id);%>
-             <% String vardas = p.getFirstName(); %>
-            <% String pavarde = p.getLastName(); %>
-            <h1> <%= vardas + ", " + pavarde + " - " %> Address</h1>        
-          <% } %>
-        <ul> 
-            <!--einam per Address sarasa ir rodome jo rezultata-->
-            <!-- pagal personId ispausdiname adresus -->
-            <% for (Address a : DB.getPersonAddresses(DB.getAll().get(id).getId())) {%>
-            <%-- for (Address a : DB.getPersonAddresses(DB.getAll().get(id).getId())) {--%>
-            <li><%= a%> 
+            }
+        %>
+        <%-- paimame person id ir pagal ji ispausdiname person varda adresu skiltyje --%>
+        <% if (DB.getById(id) != null) { %>
+        <% String vardas = DB.getById(id).getFirstName(); %>
+        <% String pavarde = DB.getById(id).getLastName();%>
+        <h2> <%= vardas + ", " + pavarde + " - "%> Addresses</h2>        
+        <% } %>
 
-                <a href="editAddress.jsp?ida=<%= a.getId() %>">   Edit Address, </a><%= a.getId() %>
-                <a href="deleteAddressServlet?ida=<%= a.getId() %>">     Remove Address, </a>    
-                <a href="editContact.jsp?personId=<%= id %>">     Contact,</a>
-               
- <%--= a.getId() %> Gaunu adsress id 
- <%= DB.getByAddress(a).getFirstName() --%> 
-  <%}%>
+        <ul> <% for (Address a : DB.getPersonAddresses(id)) {%>
+            <li><%= a%>
+
+                <a href="editAddress.jsp?ida=<%= a.getId()%>&id=<%= id%>">          Edit Address, </a>
+                <a href="deleteAddressServlet?ida=<%= a.getId()%>&id=<%= id%>">     Remove Address, </a>   
+                <a href="contact.jsp?id=<%= id%>">Contact,</a>
+
             </li>
-                
+            <%}%>
         </ul>
-                
-               <a href="editAddress.jsp?personId=<%= id %>">Add new address</a>
-               <% // } %>
-     <%--<%= DB.getAll().get(id).getId() %>--%>
-        <a href="index.jsp">Cancel</a>
-        <%--<%= id %>--%>
+        <form method= "POST" action="editAddress.jsp?id=<%= id%>" >
+            <input type="submit"  value="Add new address">
+        </form>
+        <form method= "POST" action="index.jsp?id<%=id%>" >
+            <input type="submit"  value="cancel">
+        </form>
+
     </body>
 </html>
