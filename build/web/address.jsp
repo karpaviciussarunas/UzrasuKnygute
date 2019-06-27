@@ -44,9 +44,9 @@
         <ul> <% for (Address a : DB.getPersonAddresses(id)) {%>
             <li><%= a%>
 
-                <a href="editAddress.jsp?ida=<%= a.getId()%>&id=<%= id%>">          Edit Address, </a>
-                <a href="deleteAddressServlet?ida=<%= a.getId()%>&id=<%= id%>">     Remove Address, </a>   
-                <a href="contact.jsp?id=<%= id%>">Contact,</a>
+                <a href="editAddress.jsp?ida=<%= a.getId()%>&id=<%= id%>"><button type="button">Edit Address</button></a>
+                <a href="deleteAddressServlet?ida=<%= a.getId()%>&id=<%= id%>"><button type="button">Remove Address</button></a>   
+                <a href="contact.jsp?id=<%= id%>"><button type="button">Contact</button></a>
 
             </li>
             <%}%>

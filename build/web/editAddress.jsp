@@ -66,7 +66,7 @@
             <input type="submit"  value="save">
         </form>
             
-        <form method= "POST" action="address.jsp?id<%=idp%>" >
+        <form method= "POST" action="address.jsp?id<%= idp%>" >
             <input type="submit"  value="cancel">
         </form>
        

@@ -44,9 +44,9 @@
             <li><%= c%>
                 
                
-                <a href="editContact.jsp?idc=<%= c.getId()%> ">   Edit Contact, </a>
-                <a href="deleteContact?idc=<%= c.getId()%> ">     Remove Contact, </a>    
-                <a href="address.jsp?id=<%= id%>">                Address,</a>
+                <a href="editContact.jsp?idc=<%= c.getId()%> "><button type="button">Edit Contact</button></a>
+                <a href="deleteContact?idc=<%= c.getId()%> "><button type="button">Remove Contact</button></a>    
+                <a href="address.jsp?id=<%= id%>"><button type="button">Address</button></a>
             </li>
             <%}%> 
         </ul>

@@ -88,7 +88,7 @@ public class AddressSaveServlet extends HttpServlet {
                 }
             }
         }
-        response.sendRedirect("index.jsp"); //atidirbus servletui ši eilute perleidzia darba index.jsp  
+        response.sendRedirect("address.jsp?id=" + idp); //atidirbus servletui ši eilute perleidzia darba index.jsp  
     }
 
     /**
